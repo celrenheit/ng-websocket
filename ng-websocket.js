@@ -231,7 +231,7 @@
         me.$emit = function (event, data, room, dst) {
             if (typeof event !== 'string' && arguments.length === 2) throw new Error('$emit needs two parameter: a String and a Object or a String');
 
-            var message = arguments.length === 1 ? event : {
+            var message = arguments.length === 1 && typeof event === "object" ? event : {
                 event: event,
                 data: data
             };
