@@ -228,13 +228,20 @@
             else if (me.$$config.enqueue) me.$$queue.push(message);
         };
 
-        me.$emit = function (event, data) {
-            if (typeof event !== 'string') throw new Error('$emit needs two parameter: a String and a Object or a String');
+        me.$emit = function (event, data, room, dst) {
+            if (typeof event !== 'string' && arguments.length === 2) throw new Error('$emit needs two parameter: a String and a Object or a String');
 
-            var message = {
+            var message = arguments.length === 1 ? event : {
                 event: event,
                 data: data
             };
+
+            if(typeof room !== "undefined") {
+              message.room = room
+            }
+            if(typeof dst !== "undefined") {
+              message.dst = dst
+            }
 
             me.$$send(message);
 
